@@ -1,12 +1,12 @@
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 
-export type SidebarTypes<T = any> = {
+export type DashboardSidebarTypes<T = any> = {
   children: React.ReactNode
   className?: string
 } & T;
 
-export function Sidebar({className, children}: SidebarTypes) {
+export function DashboardSidebar({className, children}: DashboardSidebarTypes) {
   return (
     <aside className={cn([
       'border-r border-border flex flex-col space-y-6', className
@@ -16,7 +16,7 @@ export function Sidebar({className, children}: SidebarTypes) {
   )
 }
 
-export function SidebarHeader({className, children}: SidebarTypes) {
+export function DashboardSidebarHeader({className, children}: DashboardSidebarTypes) {
   return (
     <header className={cn(['px-6 py-3 border-b border-border', className])}>
       {children}
@@ -24,7 +24,7 @@ export function SidebarHeader({className, children}: SidebarTypes) {
   )
 }
 
-export function SidebarHeaderTitle({className, children}: SidebarTypes) {
+export function DashboardSidebarHeaderTitle({className, children}: DashboardSidebarTypes) {
   return (
     <h2 className={cn(['', className])}>
       {children}
@@ -32,7 +32,7 @@ export function SidebarHeaderTitle({className, children}: SidebarTypes) {
   )
 }
 
-export function SidebarMain({className, children}: SidebarTypes) {
+export function DashboardSidebarMain({className, children}: DashboardSidebarTypes) {
   return (
     <main className={cn(['px-3', className])}>
       {children}
@@ -40,7 +40,7 @@ export function SidebarMain({className, children}: SidebarTypes) {
   )
 }
 
-export function SidebarNav({className, children}: SidebarTypes) {
+export function DashboardSidebarNav({className, children}: DashboardSidebarTypes) {
   return (
     <nav className={cn(['', className])}>
       {children}
@@ -48,7 +48,7 @@ export function SidebarNav({className, children}: SidebarTypes) {
   )
 }
 
-export function SidebarNavMain({className, children}: SidebarTypes) {
+export function DashboardSidebarNavMain({className, children}: DashboardSidebarTypes) {
   return (
     <main className={cn(['flex flex-col', className])}>
       {children}
@@ -56,7 +56,7 @@ export function SidebarNavMain({className, children}: SidebarTypes) {
   )
 }
 
-export function SidebarNavHeader({className, children}: SidebarTypes) {
+export function DashboardSidebarNavHeader({className, children}: DashboardSidebarTypes) {
   return (
     <header className={cn(['', className])}>
       {children}
@@ -64,7 +64,7 @@ export function SidebarNavHeader({className, children}: SidebarTypes) {
   )
 }
 
-export function SidebarNavHeaderTitle({className, children}: SidebarTypes) {
+export function DashboardSidebarNavHeaderTitle({className, children}: DashboardSidebarTypes) {
   return (
     <div className={cn([
       'text-xs uppercase text-muted-foreground ml-3', className
@@ -74,14 +74,14 @@ export function SidebarNavHeaderTitle({className, children}: SidebarTypes) {
   )
 }
 
-type SidebarNavLinkTypes = {
+type DashboardSidebarNavLinkTypes = {
   href: string
   active?: boolean
 }
 
-export function SidebarNavLink({
+export function DashboardSidebarNavLink({
   className, children, href, active
-}: SidebarTypes<SidebarNavLinkTypes>) {
+}: DashboardSidebarTypes<DashboardSidebarNavLinkTypes>) {
   return (
     <Link href={href} className={cn([
       'flex items-center text-xs px-3 py-2 rounded-md',
@@ -93,7 +93,7 @@ export function SidebarNavLink({
   )
 }
 
-export function SidebarFooter({className, children}: SidebarTypes) {
+export function DashboardSidebarFooter({className, children}: DashboardSidebarTypes) {
   return (
     <footer className={cn([
       'p-6 mt-auto border-t border-border', className
