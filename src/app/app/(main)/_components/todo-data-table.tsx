@@ -1,6 +1,6 @@
-"use client"
+"use client";
 
-import * as React from "react"
+import * as React from "react";
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -12,10 +12,10 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
-} from "@tanstack/react-table"
-import { ArrowUpDown, MoreHorizontal } from "lucide-react"
+} from "@tanstack/react-table";
+import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -23,7 +23,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
 import {
   Table,
   TableBody,
@@ -31,64 +31,20 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
-import { Badge } from "@/components/ui/badge"
-
-export type Todo = {
-  id: string
-  title: string
-  createdAt: Date
-  updatedAt: Date
-  finishedAt?: Date
-}
-
-const data: Todo[] = [
-  {
-    id: '1',
-    title: 'Study HTMX',
-    createdAt: new Date('2024-04-02'),
-    updatedAt: new Date('2024-04-28'),
-    finishedAt: new Date('2024-04-30'),
-  },
-  {
-    id: '2',
-    title: 'Study Golang',
-    createdAt: new Date('2024-04-02'),
-    updatedAt: new Date('2024-04-28'),
-    finishedAt: new Date('2024-05-03'),
-
-  },
-  {
-    id: '3',
-    title: 'Study HTMX + Go',
-    createdAt: new Date('2024-04-02'),
-    updatedAt: new Date('2024-04-28'),
-  },
-  {
-    id: '4',
-    title: 'Shit on Javascript 3x12 series',
-    createdAt: new Date('2024-04-02'),
-    updatedAt: new Date('2024-04-11'),
-    finishedAt: new Date('2024-04-22'),
-  },
-  {
-    id: '5',
-    title: 'Study HTMX again',
-    createdAt: new Date('2024-04-02'),
-    updatedAt: new Date('2024-04-28'),
-  },
-]
+} from "@/components/ui/table";
+import { Badge } from "@/components/ui/badge";
+import { Todo } from "../types";
 
 export const columns: ColumnDef<Todo>[] = [
   {
     accessorKey: "status",
     header: "Status",
     cell: ({ row }) => {
-      const { finishedAt } = row.original
-      const status: 'done' | 'waiting' = finishedAt ? 'done' : 'waiting'
-      const statusVariant: 'secondary' | 'default' = finishedAt ? 'secondary' : 'default'
+      const { doneAt } = row.original;
+      const status: "done" | "waiting" = doneAt ? "done" : "waiting";
+      const variant: "secondary" | "default" = doneAt ? "secondary" : "default";
 
-      return <Badge variant={statusVariant}>{status}</Badge>
+      return <Badge variant={variant}>{status}</Badge>;
     },
   },
   {
@@ -102,24 +58,26 @@ export const columns: ColumnDef<Todo>[] = [
           Title
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
-      )
+      );
     },
-    cell: ({ row }) => <div>{row.getValue('title')}</div>,
+    cell: ({ row }) => <div>{row.getValue("title")}</div>,
   },
   {
     accessorKey: "createdAt",
     header: () => <div className="text-right">createdAt</div>,
     cell: ({ row }) => {
-      return <div className="text-right font-medium">
-        {row.original.createdAt.toLocaleDateString()}
-      </div>
+      return (
+        <div className="text-right font-medium">
+          {row.original.createdAt.toLocaleDateString()}
+        </div>
+      );
     },
   },
   {
     id: "actions",
     enableHiding: false,
     cell: ({ row }) => {
-      const todo = row.original
+      const todo = row.original;
 
       return (
         <DropdownMenu>
@@ -141,19 +99,23 @@ export const columns: ColumnDef<Todo>[] = [
             <DropdownMenuItem>Delete</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
-      )
+      );
     },
   },
-]
+];
 
-export function TodoDataTable() {
-  const [sorting, setSorting] = React.useState<SortingState>([])
+type TodoDataTable = {
+  data: Todo[];
+};
+
+export function TodoDataTable({ data }: TodoDataTable) {
+  const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    []
-  )
+    [],
+  );
   const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({})
-  const [rowSelection, setRowSelection] = React.useState({})
+    React.useState<VisibilityState>({});
+  const [rowSelection, setRowSelection] = React.useState({});
 
   const table = useReactTable({
     data,
@@ -172,7 +134,7 @@ export function TodoDataTable() {
       columnVisibility,
       rowSelection,
     },
-  })
+  });
 
   return (
     <div className="w-full">
@@ -188,17 +150,17 @@ export function TodoDataTable() {
                         ? null
                         : flexRender(
                             header.column.columnDef.header,
-                            header.getContext()
+                            header.getContext(),
                           )}
                     </TableHead>
-                  )
+                  );
                 })}
               </TableRow>
             ))}
           </TableHeader>
           <TableBody>
-            {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
+            {table?.getRowModel().rows?.length ? (
+              table?.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
@@ -207,7 +169,7 @@ export function TodoDataTable() {
                     <TableCell key={cell.id}>
                       {flexRender(
                         cell.column.columnDef.cell,
-                        cell.getContext()
+                        cell.getContext(),
                       )}
                     </TableCell>
                   ))}
@@ -251,5 +213,5 @@ export function TodoDataTable() {
         </div>
       </div>
     </div>
-  )
+  );
 }
