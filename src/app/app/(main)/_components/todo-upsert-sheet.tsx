@@ -14,11 +14,11 @@ import {
 import { useRef } from "react";
 import {
   Form,
-  FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
+  FormControl,
+  FormDescription,
   FormMessage,
 } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
@@ -53,8 +53,6 @@ export function TodoUpsertSheet({ children }: TodoUpsertSheetProps) {
       description: "Your todo has been updated successfully.",
     });
   });
-
-  console.log(onSubmit);
 
   return (
     <Sheet>

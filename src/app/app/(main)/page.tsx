@@ -19,15 +19,16 @@ export default async function Page() {
       <DashboardPageHeader>
         <DashboardPageHeaderTitle>Tarefas</DashboardPageHeaderTitle>
         <DashboardPageHeaderNav>
-          <TodoUpsertSheet>
-            <Button variant="outline" size="sm">
-              <PlusIcon className="w-4 h-4 mr-3" />
-              Add todo
-            </Button>
-          </TodoUpsertSheet>
+          <DashboardPageHeaderNav>
+            <TodoUpsertSheet>
+              <Button variant="outline" size="sm">
+                <PlusIcon className="w-4 h-4 mr-3" />
+                Add todo
+              </Button>
+            </TodoUpsertSheet>
+          </DashboardPageHeaderNav>
         </DashboardPageHeaderNav>
       </DashboardPageHeader>
-
       <DashboardPageMain>
         <TodoDataTable data={todos} />
       </DashboardPageMain>
