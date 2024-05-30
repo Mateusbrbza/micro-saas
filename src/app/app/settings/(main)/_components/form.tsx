@@ -104,7 +104,7 @@ export function MyProfileForm({ user }: ProfileFormProps) {
         </Card>
 
         <SheetFooter className="mt-auto">
-          <Button type="submit">
+          <Button type="submit" disabled={form.formState.isSubmitting}>
             {form.formState.isSubmitting && "Salvando..."}
             {!form.formState.isSubmitting && "Salvar Alterações"}
           </Button>
