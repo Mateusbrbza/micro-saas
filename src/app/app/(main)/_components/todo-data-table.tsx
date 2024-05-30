@@ -58,8 +58,8 @@ export function TodoDataTable({ data }: TodoDataTable) {
     router.refresh();
 
     toast({
-      title: "Deletion Successful",
-      description: "The todo item has been successfully deleted.",
+      title: "Sucesso",
+      description: "Tarefa excluída com sucesso.",
     });
   };
 
@@ -70,8 +70,8 @@ export function TodoDataTable({ data }: TodoDataTable) {
     router.refresh();
 
     toast({
-      title: "Update Successful",
-      description: "The todo item has been successfully updated.",
+      title: "Sucesso",
+      description: "Tarefa atualizada com sucesso.",
     });
   };
 
@@ -82,7 +82,7 @@ export function TodoDataTable({ data }: TodoDataTable) {
       cell: ({ row }) => {
         const { doneAt } = row.original;
 
-        const status: "done" | "waiting" = doneAt ? "done" : "waiting";
+        const status: "Feito" | "Aguardando" = doneAt ? "Feito" : "Aguardando";
         const variant: "outline" | "secondary" = doneAt
           ? "outline"
           : "secondary";
@@ -98,7 +98,7 @@ export function TodoDataTable({ data }: TodoDataTable) {
             variant="link"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
-            Title
+            Título
             <CaretSortIcon className="ml-2 h-4 w-4" />
           </Button>
         );
@@ -107,7 +107,7 @@ export function TodoDataTable({ data }: TodoDataTable) {
     },
     {
       accessorKey: "createdAt",
-      header: () => <div className="text-right">createdAt</div>,
+      header: () => <div className="text-right">Data de criação</div>,
       cell: ({ row }) => {
         return (
           <div className="text-right font-medium">
@@ -126,23 +126,23 @@ export function TodoDataTable({ data }: TodoDataTable) {
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" className="h-8 w-8 p-0">
-                <span className="sr-only">Open menu</span>
+                <span className="sr-only">Abrir Menu</span>
                 <DotsHorizontalIcon className="h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuLabel>Actions</DropdownMenuLabel>
+              <DropdownMenuLabel>Ações</DropdownMenuLabel>
               <DropdownMenuItem
                 onClick={() => navigator.clipboard.writeText(todo.id)}
               >
-                Copy todo ID
+                Copiar ID da tarefa
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={() => handleToggleDoneTodo(todo)}>
-                Mark as done
+                Marcar como feito
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => handleDeleteTodo(todo)}>
-                Delete
+                Apagar
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -215,7 +215,7 @@ export function TodoDataTable({ data }: TodoDataTable) {
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  No results.
+                  Sem resultados.
                 </TableCell>
               </TableRow>
             )}
@@ -224,8 +224,8 @@ export function TodoDataTable({ data }: TodoDataTable) {
       </div>
       <div className="flex items-center justify-end space-x-2 py-4">
         <div className="flex-1 text-sm text-muted-foreground">
-          {table.getFilteredSelectedRowModel().rows.length} of{" "}
-          {table.getFilteredRowModel().rows.length} row(s) selected.
+          {table.getFilteredSelectedRowModel().rows.length} de{" "}
+          {table.getFilteredRowModel().rows.length} linha(s) selecionada(s).
         </div>
         <div className="space-x-2">
           <Button
@@ -234,7 +234,7 @@ export function TodoDataTable({ data }: TodoDataTable) {
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
           >
-            Previous
+            Anterior
           </Button>
           <Button
             variant="outline"
@@ -242,7 +242,7 @@ export function TodoDataTable({ data }: TodoDataTable) {
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
           >
-            Next
+            Próximo
           </Button>
         </div>
       </div>
