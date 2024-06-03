@@ -8,20 +8,19 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { createSubscribeSession } from "./actions";
+import { createCheckoutSessionAction } from "./actions";
 
-export default function Page() {
+export default async function Page() {
   return (
-    <form action={createSubscribeSession}>
+    <form action={createCheckoutSessionAction}>
       <Card>
         <CardHeader className="border-b border-border">
-          <CardTitle>Uso de plano</CardTitle>
+          <CardTitle>Uso do Plano</CardTitle>
           <CardDescription>
-            Atualmente você está utilizando o [current_plan]. Data de uso do
-            plano: [next_due_date].
+            Você está atualmente no{" "}
+            <span className="font-bold uppercase">[current_plan]</span>.
           </CardDescription>
         </CardHeader>
-
         <CardContent className="pt-6">
           <div className="space-y-2">
             <header className="flex items-center justify-between">
@@ -33,9 +32,8 @@ export default function Page() {
             </main>
           </div>
         </CardContent>
-
         <CardFooter className="flex items-center justify-between border-t border-border pt-6">
-          <span>Para um maior limite de plano, assine o PRO</span>
+          <span>Para um maior limite, assine o PRO</span>
           <Button type="submit">Assine por R$5,90/ mês</Button>
         </CardFooter>
       </Card>

@@ -1,6 +1,7 @@
 import Stripe from 'stripe'
 
 import { config} from "@/config"
+import { prisma } from '../databases';
 
 export const stripe = new Stripe(config.stripe.secretKey || '', {
   apiVersion: '2024-04-10',
@@ -18,25 +19,42 @@ export const createStripeCustomer = async (
     email: string,
   }
 ) => {
-  let customer = await getStripeCustomerByEmail(input.email)
+  const customer = await getStripeCustomerByEmail(input.email)
   if(customer) return customer
 
-  return stripe.customers.create({
+  const createdCustomer = await stripe.customers.create({
     email: input.email,
     name: input.name
   });
+
+  const createdCustomerSubscription = await stripe.subscriptions.create({
+    customer: createdCustomer.id,
+    items: [{ price: config.stripe.plans.free.priceId }],
+  })
+
+  await prisma.user.update({
+    where: {
+      email: input.email,
+    },
+    data: {
+      stripeCustomerId: createdCustomer.id,
+      stripeSubscriptionId: createdCustomerSubscription.id,
+      stripeSubscriptionStatus: createdCustomerSubscription.status,
+      stripePriceId: config.stripe.plans.free.priceId,
+    }
+  })
 }
 
 export const createCheckoutSession = async (
   userId: string,
-  userEmail: string
+  userEmail: string,
+  userStripeSubscriptionId: string,
 ) => {
   try {
     const customer = await createStripeCustomer({
       email: userEmail,
     })
 
-    // @ts-ignore
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       node: 'subscription',

@@ -13,7 +13,7 @@ export const config = {
       pro: {
         priceId: 'price_1PN4pYCfyD2H4eUkv5RQnauX',
         quota: {
-          TASKS: 1000,
+          TASKS: 10000,
         },
       },
     }
