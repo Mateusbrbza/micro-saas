@@ -13,19 +13,17 @@ export const getStripeCustomerByEmail = async (email:string) => {
   return customers.data[0];
 }
 
-export const createStripeCustomer = async (
-  input: {
-    name?: string,
-    email: string,
-  }
-) => {
+export const createStripeCustomer = async (input: {
+  name?: string
+  email: string
+}) => {
   const customer = await getStripeCustomerByEmail(input.email)
-  if(customer) return customer
+  if (customer) return customer
 
   const createdCustomer = await stripe.customers.create({
     email: input.email,
-    name: input.name
-  });
+    name: input.name,
+  })
 
   const createdCustomerSubscription = await stripe.subscriptions.create({
     customer: createdCustomer.id,
@@ -41,8 +39,10 @@ export const createStripeCustomer = async (
       stripeSubscriptionId: createdCustomerSubscription.id,
       stripeSubscriptionStatus: createdCustomerSubscription.status,
       stripePriceId: config.stripe.plans.free.priceId,
-    }
+    },
   })
+
+  return createdCustomer
 }
 
 export const createCheckoutSession = async (
@@ -55,19 +55,34 @@ export const createCheckoutSession = async (
       email: userEmail,
     })
 
-    const session = await stripe.checkout.sessions.create({
-      payment_method_types: ['card'],
-      node: 'subscription',
-      client_reference_id: userId,
+    const subscription = await stripe.subscriptionItems.list({
+      subscription: userStripeSubscriptionId,
+      limit: 1,
+    })
+
+    const session = await stripe.billingPortal.sessions.create({
       customer: customer.id,
-      success_url: 'http://localhost:3000/app/settings/billing?success=true',
-      cancel_url: 'http://localhost:300/app/settings/billing?success=false',
-      line_items: [
-        {
-          price: config.stripe.plans.pro.priceId,
-          quantity: 1,
+      return_url: 'http://localhost:3000/app/settings/billing',
+      flow_data: {
+        type: 'subscription_update_confirm',
+        after_completion: {
+          type: 'redirect',
+          redirect: {
+            return_url:
+              'http://localhost:3000/app/settings/billing?success=true',
+          },
         },
-      ],
+        subscription_update_confirm: {
+          subscription: userStripeSubscriptionId,
+          items: [
+            {
+              id: subscription.data[0].id,
+              price: config.stripe.plans.pro.priceId,
+              quantity: 1,
+            },
+          ],
+        },
+      },
     })
 
     return {
